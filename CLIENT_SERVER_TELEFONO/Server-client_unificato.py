@@ -1,18 +1,5 @@
-"""
-Yuri Armando
-Telefono senza fili 
-"""
+#YURI ARMANDO 5^ROB
 import socket
-def client(msgClient):
-    msgPerClient = str(input("Scrivi la parola: "))
-    bytesSend = str.encode(msgClient)
-    porta = ("192.168.1.146", 4500)
-    bufferSize = 1024
-
-    #Creazione del Socket Client 
-    socketClient = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    socketClient.sendto(bytesSend, porta)
-
 def server():
     ip = "192.168.1.146"
     porta = 4500
@@ -32,6 +19,16 @@ def server():
     
     print("[" + ipClient + "]" + " " + msgClient)
     return msgClient
+
+def client(msgClient):
+    msgPerClient = str(input("Scrivi la parola: "))
+    bytesSend = str.encode(msgClient)
+    porta = ("192.168.1.146", 4500)
+    bufferSize = 1024
+    #Creazione del Socket Client 
+    socketClient = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    socketClient.sendto(bytesSend, porta)
+
 
 def main(): 
     msgClient = server()
