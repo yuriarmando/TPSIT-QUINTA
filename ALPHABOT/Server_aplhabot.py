@@ -5,8 +5,6 @@ import sqlite3
 from sqlite3.dbapi2 import Cursor
 import threading
 import logging
-import tkinter as tk
-
 ip_serv = "192.168.1.146"
 port_serv = 4500
 
@@ -17,8 +15,6 @@ class alphabot_handle(threading.Thread):
         threading.Thread.__init__(self)
         self.conn_tunnel = connection
         self.add = address
-
-
         return
 
     def run(self):
@@ -29,7 +25,7 @@ class alphabot_handle(threading.Thread):
 
         logging.info(f"Connessione stabilita {self.add} ")
         self.choice = self.conn_tunnel.recv(1024).decode()
-        self.choice = self.choice.split(",")
+        self.choice = self.choice.split(",")  #RICEVERE TUPLA DA ALPHABOT
 
         logging.info(f"Il messaggio ricevuto è : start" [{self.choice[1]}], stop [{self.choice[0]}])
         try:
@@ -48,7 +44,7 @@ class alphabot_handle(threading.Thread):
         try:
             self.path = cursor.fetchone()
             if self.path != None:
-                logging.info(f"Percorso : {self.path[0]}")
+                logging.info(f"Percorso : {self.path[0]}") #PERCORSO SCELTO
                 self.connection.close()
             else:   
                 logging.error("Percorso non trovato")
@@ -61,10 +57,12 @@ class alphabot_handle(threading.Thread):
 
 def main():
     try:
+        #AVVIO SERVER
         serv = sock.socket(sock.AF_INET, sock.SOCK_STREAM)
         serv.bind((ip_serv, port_serv))
         serv.listen()
         while True:
+            #CONNESSIONE
             conn, add = serv.accept()
             alphabot = alphabot_handle(conn, add)
             alphabot.start()
